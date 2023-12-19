@@ -51,6 +51,11 @@ android {
 }
 
 dependencies {
+    implementation("androidx.test:core-ktx:1.5.0")
+    val nav_version = "2.7.6"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 

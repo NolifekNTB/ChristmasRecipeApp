@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Recipe::class], version = 1)
+@Database(entities = [Recipe::class], version = 2)
 abstract class ContactDatabase: RoomDatabase() {
     abstract fun contactDao(): ContactDao
 }
@@ -19,7 +19,7 @@ object contactDb{
                 context,
                 ContactDatabase::class.java,
                 "contact_database"
-            ).build()
+            ).addMigrations(MigrationFrom1To2()).build()
         }
         return db!!
     }

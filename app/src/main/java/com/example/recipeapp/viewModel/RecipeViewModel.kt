@@ -3,7 +3,9 @@ package com.example.recipeapp.viewModel
 import android.app.Application
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.recipeapp.R
 import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.data.Repository
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(app: Application): AndroidViewModel(app) {
@@ -20,20 +23,20 @@ class RecipeViewModel(app: Application): AndroidViewModel(app) {
 
     private val repo = Repository(app.applicationContext)
 
-    init {
-        //TODO deleteAll shouldn't be in init
+    //To test code
+    /*init {
         deleteAll()
         fetchData()
     }
 
-    private fun fetchData(){
-        val list = listOf(Recipe(title = "Szarlotka", ingredients = "ingredients", instructions = "instructions"),
-            Recipe(title = "Pizza", ingredients = "ingredients", instructions = "instructions"),
-            Recipe(title = "Hamburger", ingredients = "ingredients", instructions = "instructions"))
-        CoroutineScope(viewModelScope.coroutineContext).launch {
-            insertAll(list)
-        }
+    fun fetchData(){
+        var list = listOf(
+            Recipe(title = "Szarlotka", ingredients = "ingredients Szarlotka", instructions = "instructions Szarlotka", image = R.drawable.szarlotka),
+            Recipe(title = "Pizza", ingredients = "ingredients Pizza", instructions = "instructions Pizza", image = R.drawable.pizza),
+            Recipe(title = "Pierogi", ingredients = "ingredients Pierogi", instructions = "instructions Pierogi", image = R.drawable.pierogi))
+        insertAll(list)
     }
+     */
 
     fun deleteAll(){
         CoroutineScope(viewModelScope.coroutineContext).launch {

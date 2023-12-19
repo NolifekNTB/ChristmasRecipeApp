@@ -9,4 +9,5 @@ data class Recipe(
     val id : Int = 0,
     val title: String,
     val ingredients: String,
-    val instructions: String)
+    val instructions: String,
+    val image: Int)
