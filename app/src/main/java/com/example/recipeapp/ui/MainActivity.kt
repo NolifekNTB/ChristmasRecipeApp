@@ -25,6 +25,7 @@ import com.example.recipeapp.ui.Screens.SearchScreen
 import com.example.recipeapp.ui.theme.RecipeAppTheme
 import com.example.recipeapp.viewModel.RecipeViewModel
 
+
 class MainActivity : ComponentActivity() {
     private val mainVM by viewModels<RecipeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {

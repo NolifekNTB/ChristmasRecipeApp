@@ -18,32 +18,36 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(app: Application): AndroidViewModel(app) {
-    private val _recipeData = MutableStateFlow<List<Recipe>>(emptyList())
-    val recipeData = _recipeData.asStateFlow()
+    //HANDLE ERROS
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> get() = _errorMessage
 
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
+
+    //SEARCH
+    fun searchRecipes(query: String): Flow<List<Recipe>> {
+        return try{
+            repo.searchRecipes(query)
+        } catch (e: Exception){
+            _errorMessage.value = "Error fetching recipes: ${e.message}"
+            val emptyList = MutableStateFlow<List<Recipe>>(emptyList())
+            emptyList
+        }
+    }
+
+    //ROOM
     private val repo = Repository(app.applicationContext)
 
-    //To test code
-    /*init {
-        deleteAll()
-        fetchData()
-    }
-
-    fun fetchData(){
-        var list = listOf(
-            Recipe(title = "Szarlotka", ingredients = "ingredients Szarlotka", instructions = "instructions Szarlotka", image = R.drawable.szarlotka),
-            Recipe(title = "Pizza", ingredients = "ingredients Pizza", instructions = "instructions Pizza", image = R.drawable.pizza),
-            Recipe(title = "Pierogi", ingredients = "ingredients Pierogi", instructions = "instructions Pierogi", image = R.drawable.pierogi))
-        insertAll(list)
-    }
-     */
-
-    fun searchRecipes(query: String): Flow<List<Recipe>> {
-        return repo.searchRecipes(query)
-    }
-
     fun getAll(): Flow<List<Recipe>> {
-        return repo.getAll()
+        return try{
+            repo.getAll()
+        } catch (e: Exception){
+            _errorMessage.value = "Error fetching recipes: ${e.message}"
+            val emptyList = MutableStateFlow<List<Recipe>>(emptyList())
+            emptyList
+        }
     }
 
     private fun insertAll(list: List<Recipe>) {

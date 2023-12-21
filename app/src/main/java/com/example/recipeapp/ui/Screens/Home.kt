@@ -1,6 +1,7 @@
 package com.example.recipeapp.ui.Screens
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,10 +16,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +45,8 @@ import com.example.recipeapp.viewModel.RecipeViewModel
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewHomeScreen() {
+fun PreviewHomeScreen()
+{
     RecipeAppTheme {
         MainScreen(rememberNavController(), RecipeViewModel(Application()))
     }
@@ -63,7 +68,14 @@ fun MainScreen(navController: NavController, mainVM: RecipeViewModel) {
 
 @Composable
 fun SearchScreen(navController: NavController, mainVM: RecipeViewModel) {
+
     var query by remember { mutableStateOf("") }
+
+    //Handle the errors
+    ErrorSnackbar(
+        message = mainVM.errorMessage.collectAsState().value,
+        onDismiss = { mainVM.clearErrorMessage()}
+    )
 
     Column {
         Row {
@@ -81,6 +93,24 @@ fun SearchScreen(navController: NavController, mainVM: RecipeViewModel) {
 
         // Display the search results
         listDisplay(navController, mainVM.searchRecipes(query).collectAsState(emptyList()).value)
+    }
+}
+
+@Composable
+fun ErrorSnackbar(message: String?, onDismiss: () -> Unit) {
+    // Display a Snackbar if there's an error
+    if (!message.isNullOrEmpty()) {
+        Snackbar(
+            action = {
+                // Provide an action to dismiss the Snackbar
+                TextButton(onClick = { onDismiss() }) {
+                    Text("Dismiss")
+                }
+            },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(message )
+        }
     }
 }
 
