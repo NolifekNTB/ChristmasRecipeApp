@@ -25,4 +25,7 @@ interface ContactDao {
 
     @Query("DELETE FROM recipe_table")
     suspend fun dropDatabase()
+
+    @Query("SELECT * FROM recipe_table WHERE title LIKE '%' || :query || '%'")
+    fun searchRecipes(query: String): Flow<List<Recipe>>
 }

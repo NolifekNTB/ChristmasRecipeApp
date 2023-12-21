@@ -38,10 +38,8 @@ class RecipeViewModel(app: Application): AndroidViewModel(app) {
     }
      */
 
-    fun deleteAll(){
-        CoroutineScope(viewModelScope.coroutineContext).launch {
-            repo.dropDatabase()
-        }
+    fun searchRecipes(query: String): Flow<List<Recipe>> {
+        return repo.searchRecipes(query)
     }
 
     fun getAll(): Flow<List<Recipe>> {
@@ -51,12 +49,6 @@ class RecipeViewModel(app: Application): AndroidViewModel(app) {
     private fun insertAll(list: List<Recipe>) {
         CoroutineScope(viewModelScope.coroutineContext).launch {
             repo.insertAll(list)
-        }
-    }
-
-    fun update(recipe: Recipe){
-        CoroutineScope(viewModelScope.coroutineContext).launch {
-            repo.update(recipe)
         }
     }
 }

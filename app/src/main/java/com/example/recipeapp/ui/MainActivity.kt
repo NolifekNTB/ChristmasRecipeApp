@@ -21,6 +21,7 @@ import com.example.recipeapp.R
 import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.ui.Screens.MainScreen
 import com.example.recipeapp.ui.Screens.RecipeDetailScreen
+import com.example.recipeapp.ui.Screens.SearchScreen
 import com.example.recipeapp.ui.theme.RecipeAppTheme
 import com.example.recipeapp.viewModel.RecipeViewModel
 
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "recipeList") {
                         // Main screen (recipe list)
                         composable("recipeList") {
-                            MainScreen(navController, recipes)
+                            MainScreen(navController, mainVM)
                         }
 
                         // Detail screen

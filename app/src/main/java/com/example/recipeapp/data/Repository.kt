@@ -24,4 +24,8 @@ class Repository(context: Context): ContactDao {
     override suspend fun dropDatabase() {
         dao.dropDatabase()
     }
+
+    override fun searchRecipes(query: String): Flow<List<Recipe>> {
+        return dao.searchRecipes(query)
+    }
 }
