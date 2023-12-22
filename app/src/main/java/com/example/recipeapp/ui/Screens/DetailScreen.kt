@@ -21,7 +21,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.recipeapp.data.Recipe
 
-// Detail screen composable
+/**
+ * Composable function representing the detail screen of a recipe in the RecipeApp.
+ *
+ * @param navController Navigation controller for handling navigation events.
+ * @param recipeId String representation of the recipe's ID.
+ * @param recipes List of Recipe objects containing recipe details.
+ */
 @Composable
 fun RecipeDetailScreen(navController: NavHostController, recipeId: String, recipes: List<Recipe>) {
     val recipeIndex = recipes.indexOfFirst { it.id == recipeId.toInt() }
