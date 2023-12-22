@@ -25,32 +25,43 @@ import com.example.recipeapp.ui.Screens.SearchScreen
 import com.example.recipeapp.ui.theme.RecipeAppTheme
 import com.example.recipeapp.viewModel.RecipeViewModel
 
-
+/**
+ * The main activity of the RecipeApp application.
+ * Responsible for setting up the Compose UI and navigation.
+ */
 class MainActivity : ComponentActivity() {
+    // ViewModel instance for managing recipe-related data
     private val mainVM by viewModels<RecipeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Set the Compose content for the activity
         setContent {
+            // Apply the RecipeApp theme to the entire UI
             RecipeAppTheme {
+                // Collect the latest recipes from the ViewModel as a state
                 val recipes by mainVM.getAll().collectAsState(emptyList())
 
+                // Set up the Compose UI within a Surface
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    // Create a navigation controller for managing navigation within the app
                     val navController = rememberNavController()
 
-                    // Set up the navigation host
+                    // Set up the navigation host using Jetpack Compose Navigation
                     NavHost(navController = navController, startDestination = "recipeList") {
-                        // Main screen (recipe list)
+                        // Define the main screen (recipe list)
                         composable("recipeList") {
                             MainScreen(navController, mainVM)
                         }
 
-                        // Detail screen
+                        // Define the detail screen
                         composable("recipeDetail/{recipeId}") { backStackEntry ->
+                            // Extract the recipeId from the navigation arguments
                             val recipeId = backStackEntry.arguments?.getString("recipeId")
                             recipeId?.let { recipeId ->
+                                // Display the RecipeDetailScreen for the selected recipe
                                 RecipeDetailScreen(navController, recipeId, recipes)
                             }
                         }

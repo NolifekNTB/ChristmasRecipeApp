@@ -52,6 +52,12 @@ fun PreviewHomeScreen()
     }
 }
 
+/**
+ * Composable function representing the main screen of the RecipeApp.
+ *
+ * @param navController Navigation controller for handling navigation events.
+ * @param mainVM RecipeViewModel for managing recipe-related data.
+ */
 @Composable
 fun MainScreen(navController: NavController, mainVM: RecipeViewModel) {
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -66,20 +72,29 @@ fun MainScreen(navController: NavController, mainVM: RecipeViewModel) {
     }
 }
 
+
+/**
+ * Composable function representing the search screen of the RecipeApp.
+ *
+ * @param navController Navigation controller for handling navigation events.
+ * @param mainVM RecipeViewModel for managing recipe-related data.
+ */
 @Composable
 fun SearchScreen(navController: NavController, mainVM: RecipeViewModel) {
 
+    // State to hold the current search query
     var query by remember { mutableStateOf("") }
 
-    //Handle the errors
+    // Handle errors using a Snackbar
     ErrorSnackbar(
         message = mainVM.errorMessage.collectAsState().value,
-        onDismiss = { mainVM.clearErrorMessage()}
+        onDismiss = { mainVM.clearErrorMessage() }
     )
 
+    // Search screen UI components
     Column {
+        // Search bar
         Row {
-            //Searh bar
             TextField(
                 value = query,
                 onValueChange = { query = it },
@@ -96,6 +111,12 @@ fun SearchScreen(navController: NavController, mainVM: RecipeViewModel) {
     }
 }
 
+/**
+ * Composable function representing the display of a Snackbar for showing errors.
+ *
+ * @param message Error message to be displayed in the Snackbar.
+ * @param onDismiss Callback to be invoked when the Snackbar is dismissed.
+ */
 @Composable
 fun ErrorSnackbar(message: String?, onDismiss: () -> Unit) {
     // Display a Snackbar if there's an error
@@ -114,6 +135,12 @@ fun ErrorSnackbar(message: String?, onDismiss: () -> Unit) {
     }
 }
 
+/**
+ * Composable function representing the display of a list of recipes.
+ *
+ * @param navController Navigation controller for handling navigation events.
+ * @param recipes List of Recipe objects to display.
+ */
 @Composable
 fun listDisplay(navController: NavController, recipes: List<Recipe>){
     var i = 0
@@ -129,9 +156,13 @@ fun listDisplay(navController: NavController, recipes: List<Recipe>){
 }
 
 
-
-
-
+/**
+ * Composable function representing the display of a single row of recipes.
+ *
+ * @param recipe1 First Recipe object in the row.
+ * @param recipe2 Second Recipe object in the row.
+ * @param navController Navigation controller for handling navigation events.
+ */
 @Composable
 fun rowList(recipe1: Recipe, recipe2: Recipe, navController: NavController) {
     Row {
@@ -148,6 +179,12 @@ fun rowList(recipe1: Recipe, recipe2: Recipe, navController: NavController) {
     }
 }
 
+/**
+ * Composable function representing the display of a single recipe in a row.
+ *
+ * @param recipe Recipe object to display.
+ * @param navController Navigation controller for handling navigation events.
+ */
 @Composable
 fun oneRowList(recipe: Recipe, navController: NavController) {
     Row {
@@ -164,6 +201,13 @@ fun oneRowList(recipe: Recipe, navController: NavController) {
     }
 }
 
+/**
+ * Composable function representing a recipe box with an image and title.
+ *
+ * @param recipe Recipe object to display.
+ * @param navController Navigation controller for handling navigation events.
+ * @param modifier Modifier for additional customization.
+ */
 @Composable
 fun boxRecipe(recipe: Recipe, navController: NavController, modifier: Modifier = Modifier) {
     Box(
