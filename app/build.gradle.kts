@@ -19,6 +19,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -48,9 +54,16 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
 }
 
 dependencies {
+    implementation("androidx.compose.animation:animation:1.5.4")
+
+
+    implementation ("androidx.compose.material:material:1.5.4")
+
     implementation("androidx.test:core-ktx:1.5.0")
     val nav_version = "2.7.6"
     implementation("androidx.navigation:navigation-compose:$nav_version")

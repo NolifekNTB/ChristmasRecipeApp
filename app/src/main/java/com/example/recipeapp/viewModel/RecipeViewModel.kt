@@ -23,9 +23,21 @@ import kotlinx.coroutines.launch
  * @param app Application instance for accessing Android-specific resources.
  */
 class RecipeViewModel(app: Application): AndroidViewModel(app) {
+    //FavoriteList
+    private val _favoriteList = MutableStateFlow<List<Recipe>>(emptyList())
+    val favoriteList: StateFlow<List<Recipe>> get() = _favoriteList
+
     //HANDLE ERROS
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> get() = _errorMessage
+
+    fun updateFavoriteList(recipe: Recipe){
+        _favoriteList.value = _favoriteList.value + recipe
+    }
+
+    fun removeFavoriteList(recipe: Recipe){
+        _favoriteList.value = _favoriteList.value - recipe
+    }
 
     /**
      * Clears the current error message.
