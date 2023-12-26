@@ -6,8 +6,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.R
+import com.example.recipeapp.data.Favorite
 import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.data.Repository
+import com.example.recipeapp.data.RepositoryFavorite
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,20 +25,26 @@ import kotlinx.coroutines.launch
  * @param app Application instance for accessing Android-specific resources.
  */
 class RecipeViewModel(app: Application): AndroidViewModel(app) {
-    //FavoriteList
-    private val _favoriteList = MutableStateFlow<List<Recipe>>(emptyList())
-    val favoriteList: StateFlow<List<Recipe>> get() = _favoriteList
+    private val repoFavorite = RepositoryFavorite(app.applicationContext)
 
     //HANDLE ERROS
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> get() = _errorMessage
 
-    fun updateFavoriteList(recipe: Recipe){
-        _favoriteList.value = _favoriteList.value + recipe
+    suspend fun updateFavoriteList(favorite: Favorite){
+        repoFavorite.update(favorite)
     }
 
-    fun removeFavoriteList(recipe: Recipe){
-        _favoriteList.value = _favoriteList.value - recipe
+    suspend fun insertFavorite(favorites: List<Favorite>){
+        repoFavorite.insertAll(favorites)
+    }
+
+    suspend fun removeFavoriteList(favorite: Favorite){
+        repoFavorite.delete(favorite)
+    }
+
+    fun getAllFavorite(): Flow<List<Favorite>> {
+        return repoFavorite.getAll()
     }
 
     /**

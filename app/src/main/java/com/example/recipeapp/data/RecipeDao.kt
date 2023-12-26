@@ -63,3 +63,24 @@ interface ContactDao {
     @Query("SELECT * FROM recipe_table WHERE title LIKE '%' || :query || '%'")
     fun searchRecipes(query: String): Flow<List<Recipe>>
 }
+
+@Dao
+interface FavoriteDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(favorite: List<Favorite>)
+
+    @Delete
+    suspend fun delete(favorite: Favorite)
+
+    @Update
+    suspend fun update(favorite: Favorite)
+
+    @Query("SELECT * FROM favorite_table")
+    fun getAll(): Flow<List<Favorite>>
+
+    @Query("DELETE FROM favorite_table")
+    suspend fun dropDatabase()
+
+    @Query("SELECT EXISTS (SELECT 1 FROM favorite_table WHERE title = :title)")
+    suspend fun recipeExists(title: String): Boolean
+}

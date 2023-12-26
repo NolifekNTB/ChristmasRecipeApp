@@ -20,3 +20,12 @@ data class Recipe(
     val ingredients: String,
     val instructions: String,
     val image: Int)
+
+@Entity(tableName = "favorite_table")
+data class Favorite(
+    @PrimaryKey(autoGenerate = true)
+    val id : Int = 0,
+    val title: String,
+    val description: String,
+    val image: Int)
+

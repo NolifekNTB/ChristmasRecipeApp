@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
  *
  * This class is annotated with the [Database] annotation to specify the entities it contains and the database version.
  */
-@Database(entities = [Recipe::class], version = 2)
+@Database(entities = [Recipe::class, Favorite::class], version = 3)
 abstract class ContactDatabase: RoomDatabase() {
     /**
      * Abstract method to obtain the Data Access Object (DAO) for recipe-related database operations.
@@ -18,6 +18,7 @@ abstract class ContactDatabase: RoomDatabase() {
      * @return Instance of [ContactDao] for interacting with recipe data.
      */
     abstract fun contactDao(): ContactDao
+    abstract fun favoriteDao(): FavoriteDao
 }
 
 
@@ -43,7 +44,7 @@ object contactDb{
                 context,
                 ContactDatabase::class.java,
                 "contact_database"
-            ).addMigrations(MigrationFrom1To2()).build()
+            ).addMigrations(MigrationFrom1To2(), MigrationFrom2To3()).build()
         }
         return db!!
     }

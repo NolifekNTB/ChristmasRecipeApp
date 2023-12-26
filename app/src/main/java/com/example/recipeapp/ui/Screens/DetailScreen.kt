@@ -1,6 +1,7 @@
 package com.example.recipeapp.ui.Screens
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.recipeapp.data.Favorite
 import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.viewModel.RecipeViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -91,12 +93,9 @@ fun RecipeDetailScreen(navController: NavHostController, recipeId: String, recip
         Button(
             onClick = {
                 GlobalScope.launch {
-                    if (mainVM.favoriteList.value.contains(recipes[recipeIndex])) {
-                        snackbarHostState.showSnackbar("Recipe already in the box!")
-                    } else {
-                        mainVM.updateFavoriteList(recipes[recipeIndex])
+                        val favoriteRecipe = listOf(Favorite(title = recipes[recipeIndex].title, description = recipes[recipeIndex].title, image = recipes[recipeIndex].image))
+                        mainVM.insertFavorite(favoriteRecipe)
                         snackbarHostState.showSnackbar("Recipe added to the box!")
-                    }
                 }
             },
             modifier = Modifier

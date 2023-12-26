@@ -2,6 +2,7 @@ package com.example.recipeapp.ui.Screens
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.recipeapp.R
+import com.example.recipeapp.data.Favorite
 import com.example.recipeapp.data.Recipe
 import com.example.recipeapp.viewModel.RecipeViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -27,7 +29,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun FavoriteScreen(mainVM: RecipeViewModel) {
-    val savedRecipes by mainVM.favoriteList.collectAsState(emptyList())
+    val savedRecipes by mainVM.getAllFavorite().collectAsState(emptyList())
     val snackbarHostState = remember { SnackbarHostState() }
 
     Column(
@@ -61,7 +63,7 @@ fun FavoriteScreen(mainVM: RecipeViewModel) {
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun RecipeItem(recipe: Recipe, mainVM: RecipeViewModel, snackbarHostState: SnackbarHostState) {
+fun RecipeItem(recipe: Favorite, mainVM: RecipeViewModel, snackbarHostState: SnackbarHostState) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -93,7 +95,7 @@ fun RecipeItem(recipe: Recipe, mainVM: RecipeViewModel, snackbarHostState: Snack
 
             // Recipe Description
             Text(
-                text = recipe.instructions,
+                text = recipe.description,
                 fontSize = 16.sp,
                 color = Color.Gray
             )

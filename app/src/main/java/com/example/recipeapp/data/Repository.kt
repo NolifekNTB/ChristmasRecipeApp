@@ -68,4 +68,5 @@ class Repository(context: Context): ContactDao {
     override fun searchRecipes(query: String): Flow<List<Recipe>> {
         return dao.searchRecipes(query)
     }
+
 }
