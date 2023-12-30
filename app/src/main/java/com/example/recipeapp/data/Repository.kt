@@ -32,6 +32,10 @@ class Repository(context: Context): ContactDao {
         dao.delete(contact)
     }
 
+    override suspend fun deleteAll() {
+        dao.deleteAll()
+    }
+
     /**
      * Updates a recipe in the database.
      *

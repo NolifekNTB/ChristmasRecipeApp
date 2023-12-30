@@ -37,6 +37,10 @@ interface ContactDao {
      *
      * @param contact [Recipe] object to be updated.
      */
+
+    @Query("DELETE FROM recipe_table")
+    suspend fun deleteAll()
+
     @Update
     suspend fun update(contact: Recipe)
 

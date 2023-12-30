@@ -1,7 +1,14 @@
 package com.example.recipeapp.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -33,11 +40,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.data.Recipe
+import com.example.recipeapp.notifications.NotificationService
 import com.example.recipeapp.ui.Screens.FavoriteScreen
 import com.example.recipeapp.ui.Screens.MainScreen
 import com.example.recipeapp.ui.Screens.RecipeDetailScreen
@@ -55,13 +65,20 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel()
         // Set the Compose content for the activity
         setContent {
             // Apply the RecipeApp theme to the entire UI
             RecipeAppTheme {
                 // Collect the latest recipes from the ViewModel as a state
+                val service = NotificationService(context = applicationContext)
                 val recipes by mainVM.getAll().collectAsState(emptyList())
+
+                if (recipes.size >= 4){
+                    service.showNotification()
+                }
                 val navController = rememberNavController()
+                RequestNotificationPermission(this)
 
                 Scaffold(
                     bottomBar = {
@@ -97,7 +114,7 @@ class MainActivity : ComponentActivity() {
                                 val recipeId = backStackEntry.arguments?.getString("recipeId")
                                 recipeId?.let { recipeId ->
                                     // Display the RecipeDetailScreen for the selected recipe
-                                    RecipeDetailScreen(navController, recipeId, recipes, mainVM)
+                                    RecipeDetailScreen(navController, recipeId, recipes, mainVM, applicationContext)
                                 }
                             }
                     }
@@ -105,7 +122,37 @@ class MainActivity : ComponentActivity() {
               }
             }
         }
+            private fun createNotificationChannel(){
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    val channel = NotificationChannel(
+                        NotificationService.COUNTER_CHANNEL_ID,
+                        "title",
+                        NotificationManager.IMPORTANCE_DEFAULT
+                    )
+                    channel.description = "description"
+                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    notificationManager.createNotificationChannel(channel)
+                }
+            }
     }
+
+@Composable
+fun RequestNotificationPermission(activity: ComponentActivity) {
+    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS)
+        == PackageManager.PERMISSION_GRANTED
+    ) {
+        ActivityCompat.shouldShowRequestPermissionRationale(
+            activity,
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+    } else {
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            1
+        )
+    }
+}
 
 
 

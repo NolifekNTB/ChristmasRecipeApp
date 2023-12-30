@@ -1,6 +1,7 @@
 package com.example.recipeapp.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.asLiveData
@@ -26,6 +27,18 @@ import kotlinx.coroutines.launch
  */
 class RecipeViewModel(app: Application): AndroidViewModel(app) {
     private val repoFavorite = RepositoryFavorite(app.applicationContext)
+
+    init{
+        val list = listOf(Recipe(title = "Szarlotka", ingredients = "mąka - 100g\nwoda-", instructions = "instructions", image = R.drawable.szarlotka),
+            Recipe(title = "pizza", ingredients = "ingredients", instructions = "instructions", image = R.drawable.pizza),
+            Recipe(title = "pierogi", ingredients = "ingredients", instructions = "instructions", image = R.drawable.pierogi))
+        CoroutineScope(Dispatchers.IO).launch {
+            repo.deleteAll()
+            repo.insertAll(list)
+            }
+        }
+
+
 
     //HANDLE ERROS
     private val _errorMessage = MutableStateFlow<String?>(null)
@@ -87,7 +100,6 @@ class RecipeViewModel(app: Application): AndroidViewModel(app) {
             emptyList
         }
     }
-
 
     /**
      * Inserts a list of recipes into the repository.

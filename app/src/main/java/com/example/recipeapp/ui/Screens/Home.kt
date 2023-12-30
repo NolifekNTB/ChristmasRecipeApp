@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
@@ -39,6 +40,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.data.Recipe
+import com.example.recipeapp.notifications.NotificationService
 import com.example.recipeapp.ui.theme.RecipeAppTheme
 import com.example.recipeapp.viewModel.RecipeViewModel
 
