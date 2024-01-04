@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 
 /**
  * Room Database class for managing recipe data.
  *
  * This class is annotated with the [Database] annotation to specify the entities it contains and the database version.
  */
+@TypeConverters(HashMapConverter::class)
 @Database(entities = [Recipe::class, Favorite::class], version = 3)
 abstract class ContactDatabase: RoomDatabase() {
     /**
@@ -44,7 +47,9 @@ object contactDb{
                 context,
                 ContactDatabase::class.java,
                 "contact_database"
-            ).addMigrations(MigrationFrom1To2(), MigrationFrom2To3()).build()
+            ).addMigrations(MigrationFrom1To2(), MigrationFrom2To3())
+                .fallbackToDestructiveMigration()
+                .build()
         }
         return db!!
     }

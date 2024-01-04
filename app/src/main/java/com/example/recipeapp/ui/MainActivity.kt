@@ -98,7 +98,8 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) {
-                        NavHost(navController = navController, startDestination = "recipeList") {
+
+                    NavHost(navController = navController, startDestination = "recipeList") {
                             // Define the main screen (recipe list)
                             composable("recipeList") {
                                 MainScreen(navController, mainVM)

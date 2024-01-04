@@ -59,12 +59,17 @@ android {
 }
 
 dependencies {
+    //gson
+    implementation ("com.google.code.gson:gson:2.10.1")
+
     implementation("androidx.compose.animation:animation:1.5.4")
 
 
     implementation ("androidx.compose.material:material:1.5.4")
 
     implementation("androidx.test:core-ktx:1.5.0")
+    implementation("androidx.test.espresso:espresso-remote:3.5.1")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     val nav_version = "2.7.6"
     implementation("androidx.navigation:navigation-compose:$nav_version")
 

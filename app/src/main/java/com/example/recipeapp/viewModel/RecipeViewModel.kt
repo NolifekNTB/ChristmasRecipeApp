@@ -29,9 +29,9 @@ class RecipeViewModel(app: Application): AndroidViewModel(app) {
     private val repoFavorite = RepositoryFavorite(app.applicationContext)
 
     init{
-        val list = listOf(Recipe(title = "Szarlotka", ingredients = "mąka - 100g\nwoda-", instructions = "instructions", image = R.drawable.szarlotka),
-            Recipe(title = "pizza", ingredients = "ingredients", instructions = "instructions", image = R.drawable.pizza),
-            Recipe(title = "pierogi", ingredients = "ingredients", instructions = "instructions", image = R.drawable.pierogi))
+        val list = listOf(Recipe(title = "Szarlotka", ingredients = hashMapOf("mąką" to 100, "kotlet sojowy" to 33), instructions = "instructions", image = R.drawable.szarlotka),
+            Recipe(title = "pizza", ingredients = hashMapOf("soja" to 100, "bułka tarta" to 33), instructions = "instructions", image = R.drawable.pizza),
+            Recipe(title = "pierogi", ingredients = hashMapOf("jajko" to 1, "mleko" to 33), instructions = "instructions", image = R.drawable.pierogi))
         CoroutineScope(Dispatchers.IO).launch {
             repo.deleteAll()
             repo.insertAll(list)
